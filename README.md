@@ -1,4 +1,4 @@
-# Lexis AI — Premium Dictionary Workstation
+# Lexis AI — Dictionary Workstation
 
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
