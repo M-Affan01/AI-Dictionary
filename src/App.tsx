@@ -32,60 +32,109 @@ import { getWordInsight } from './services/gemini';
 
 // --- Components ---
 
-const Header = ({ currentView, changeView, openSettings }: { currentView: AppView, changeView: (v: AppView) => void, openSettings: () => void }) => (
-  <header className="fixed top-0 left-0 right-0 z-50 frosted-glass h-20">
-    <div className="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-      <div
-        className="text-xl font-bold tracking-tighter uppercase italic cursor-pointer group"
-        onClick={() => changeView('home')}
-      >
-        Lexis <span className="text-white/40 group-hover:text-white transition-colors">AI</span>
-      </div>
+const Header = ({ currentView, changeView, openSettings }: { currentView: AppView, changeView: (v: AppView) => void, openSettings: () => void }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-      <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-        {[
-          { id: 'home', label: 'Home', icon: BookOpen },
-          { id: 'details', label: 'Vault', icon: Search },
-          { id: 'library', label: 'Saved', icon: Bookmark },
-          { id: 'insights', label: 'Stats', icon: TrendingUp }
-        ].map((item) => (
-          <button
-            key={item.id}
-            onClick={() => changeView(item.id as AppView)}
-            className={`nav-link-hover py-1 flex items-center gap-2 ${currentView === item.id
-                ? 'text-white after:w-full'
-                : 'text-white/50'
-              }`}
-          >
-            <item.icon className="w-3.5 h-3.5" />
-            <span className="text-[10px] uppercase tracking-widest font-bold">{item.label}</span>
-          </button>
-        ))}
-      </nav>
-
-      <div className="flex items-center gap-6">
-        <div className="h-8 w-[1px] bg-white/20"></div>
-        <button
-          onClick={openSettings}
-          className="p-2 text-white/50 hover:text-white transition-all transform hover:rotate-90 active:scale-95"
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 frosted-glass h-20">
+      <div className="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+        <div
+          className="text-xl font-bold tracking-tighter uppercase italic cursor-pointer group"
+          onClick={() => {
+            changeView('home');
+            setIsMenuOpen(false);
+          }}
         >
-          <Settings className="w-5 h-5" />
-        </button>
+          Lexis <span className="text-white/40 group-hover:text-white transition-colors">AI</span>
+        </div>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+          {[
+            { id: 'home', label: 'Home', icon: BookOpen },
+            { id: 'details', label: 'Vault', icon: Search },
+            { id: 'library', label: 'Saved', icon: Bookmark },
+            { id: 'insights', label: 'Stats', icon: TrendingUp }
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => changeView(item.id as AppView)}
+              className={`nav-link-hover py-1 flex items-center gap-2 ${currentView === item.id
+                  ? 'text-white after:w-full'
+                  : 'text-white/50'
+                }`}
+            >
+              <item.icon className="w-3.5 h-3.5" />
+              <span className="text-[10px] uppercase tracking-widest font-bold">{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-4 md:gap-6">
+          <div className="hidden md:block h-8 w-[1px] bg-white/20"></div>
+          <button
+            onClick={openSettings}
+            className="p-2 text-white/50 hover:text-white transition-all transform hover:rotate-90 active:scale-95"
+          >
+            <Settings className="w-5 h-5" />
+          </button>
+          
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden p-2 text-white/50 hover:text-white"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Layers className="w-6 h-6" />
+          </button>
+        </div>
       </div>
-    </div>
-  </header>
-);
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-20 left-0 right-0 bg-black/95 backdrop-blur-2xl border-b border-white/10 p-6 md:hidden"
+          >
+            <nav className="flex flex-col gap-6">
+              {[
+                { id: 'home', label: 'Home', icon: BookOpen },
+                { id: 'details', label: 'Vault', icon: Search },
+                { id: 'library', label: 'Saved', icon: Bookmark },
+                { id: 'insights', label: 'Stats', icon: TrendingUp }
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    changeView(item.id as AppView);
+                    setIsMenuOpen(false);
+                  }}
+                  className={`flex items-center gap-4 text-sm font-bold uppercase tracking-widest ${currentView === item.id ? 'text-white' : 'text-white/40'}`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+};
 
 const Foot = () => (
-  <footer className="h-12 border-t border-white/10 bg-black flex items-center justify-between px-8 text-[10px] text-white/40 uppercase tracking-widest mt-32">
-    <div className="flex gap-8">
+  <footer className="py-12 border-t border-white/10 bg-black flex flex-col md:flex-row items-center justify-between px-8 gap-8 text-[10px] text-white/40 uppercase tracking-widest mt-32">
+    <div className="flex flex-col md:flex-row gap-8 items-center">
       <div className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
         <span>Lexis AI Status: Optimal</span>
       </div>
       <span>Linguistic Library: v2.04</span>
     </div>
-    <div className="flex gap-6">
+    <div className="flex flex-wrap justify-center gap-6">
       <span className="hover:text-white cursor-pointer transition-colors">Terms of Service</span>
       <span className="hover:text-white cursor-pointer transition-colors">Privacy Policy</span>
       <span className="text-white/60">© 2024 Lexis AI</span>
@@ -112,23 +161,23 @@ const HomeView = ({
 }) => (
   <div className="pt-32 space-y-24">
     {/* Hero */}
-    <section className="max-w-4xl mx-auto text-center space-y-12">
-      <h1 className="text-6xl md:text-8xl font-serif font-light leading-tight tracking-tight">
+    <section className="max-w-4xl mx-auto text-center space-y-8 md:space-y-12">
+      <h1 className="text-5xl sm:text-6xl md:text-8xl font-serif font-light leading-tight tracking-tight">
         Architecture <br />
         <span className="italic">of Language</span>
       </h1>
 
-      <div className="relative group max-w-2xl mx-auto">
-        <div className="relative flex items-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-8 py-5 shadow-2xl transition-all duration-500 group-focus-within:border-white/40 group-focus-within:shadow-[0_0_50px_rgba(255,255,255,0.1)]">
-          <Search className="text-white/40 mr-4 w-5 h-5 transition-colors group-focus-within:text-white" />
+      <div className="relative group max-w-2xl mx-auto px-4">
+        <div className="relative flex items-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-6 md:px-8 py-4 md:py-5 shadow-2xl transition-all duration-500 group-focus-within:border-white/40 group-focus-within:shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+          <Search className="text-white/40 mr-3 md:mr-4 w-4 h-4 md:w-5 md:h-5 transition-colors group-focus-within:text-white" />
           <input
             type="text"
-            placeholder="Search for etymology or synonyms..."
-            className="bg-transparent border-none focus:ring-0 w-full text-lg placeholder:text-white/20 outline-none font-light"
+            placeholder="Search for etymology..."
+            className="bg-transparent border-none focus:ring-0 w-full text-base md:text-lg placeholder:text-white/20 outline-none font-light"
             onKeyDown={(e) => e.key === 'Enter' && onSearch((e.target as HTMLInputElement).value)}
           />
-          <div className="flex items-center gap-2 ml-4 border-l border-white/10 pl-4">
-            <Sparkles className="text-white/20 w-5 h-5 animate-pulse" />
+          <div className="flex items-center gap-2 ml-3 md:ml-4 border-l border-white/10 pl-3 md:pl-4">
+            <Sparkles className="text-white/20 w-4 h-4 md:w-5 md:h-5 animate-pulse" />
           </div>
         </div>
       </div>
@@ -137,13 +186,13 @@ const HomeView = ({
     {/* Featured Cards */}
     <section className="grid grid-cols-1 md:grid-cols-12 gap-1 border-y border-white/10">
       {/* Word of the Day */}
-      <div className="md:col-span-8 p-12 bg-gradient-to-br from-black to-zinc-950 border-r border-white/10">
-        <div className="space-y-12">
+      <div className="md:col-span-8 p-8 md:p-12 bg-gradient-to-br from-black to-zinc-950 border-b md:border-b-0 md:border-r border-white/10">
+        <div className="space-y-8 md:space-y-12">
           <div className="space-y-2">
             <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 italic mb-4 block">Current Spotlight</span>
-            <h2 className="text-6xl font-serif font-light mb-2">{WORD_OF_THE_DAY.word}</h2>
+            <h2 className="text-4xl sm:text-6xl font-serif font-light mb-2">{WORD_OF_THE_DAY.word}</h2>
             <div className="flex items-center gap-4">
-              <p className="text-white/30 italic font-serif text-xl">{WORD_OF_THE_DAY.phonetic}</p>
+              <p className="text-white/30 italic font-serif text-lg md:text-xl">{WORD_OF_THE_DAY.phonetic}</p>
               <button
                 onClick={() => handleSpeak(WORD_OF_THE_DAY.word)}
                 className="text-white/20 hover:text-white transition-all transform hover:scale-110 p-2 rounded-full hover:bg-white/5"
@@ -153,8 +202,8 @@ const HomeView = ({
             </div>
           </div>
 
-          <div className="timeline-border pl-10 space-y-6 max-w-xl">
-            <p className="text-2xl leading-relaxed text-white/70 font-light">
+          <div className="timeline-border pl-6 md:pl-10 space-y-6 max-w-xl">
+            <p className="text-xl md:text-2xl leading-relaxed text-white/70 font-light">
               {WORD_OF_THE_DAY.definition}
             </p>
             <div className="flex items-center gap-2 text-white/20 text-[10px] uppercase tracking-[0.2em] font-medium">
@@ -163,7 +212,7 @@ const HomeView = ({
             </div>
           </div>
 
-          <div className="flex gap-8 pt-6">
+          <div className="flex flex-col sm:flex-row gap-4 md:gap-8 pt-6">
             <button 
               onClick={() => {
                 setSearchWord(WORD_OF_THE_DAY);
@@ -251,18 +300,18 @@ const HomeView = ({
 // --- Details View ---
 
 const DetailsView = ({ word, handleSpeak }: { word: WordInsight, handleSpeak: (t: string) => void }) => (
-  <div className="pt-32 space-y-12">
-    <section className="bg-gradient-to-b from-zinc-900 to-black border border-white/10 rounded-3xl p-16 radial-underglow relative overflow-hidden">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+  <div className="pt-32 space-y-8 md:space-y-12">
+    <section className="bg-gradient-to-b from-zinc-900 to-black border border-white/10 rounded-2xl md:rounded-3xl p-8 md:p-16 radial-underglow relative overflow-hidden">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 md:mb-16">
         <div className="space-y-6">
-          <div className="flex items-center gap-4">
-            <span className="border border-white/20 px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest italic text-white/40">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4">
+            <span className="border border-white/20 px-3 md:px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest italic text-white/40">
               {word.partOfSpeech}
             </span>
-            <span className="bg-white text-black px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+            <span className="bg-white text-black px-3 md:px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
               Linguistic Profile
             </span>
-            <div className="flex items-center gap-2 text-white/30 font-serif italic text-lg">
+            <div className="flex items-center gap-2 text-white/30 font-serif italic text-base md:text-lg">
               <span>{word.phonetic}</span>
               <button
                 onClick={() => handleSpeak(word.word)}
@@ -272,13 +321,13 @@ const DetailsView = ({ word, handleSpeak }: { word: WordInsight, handleSpeak: (t
               </button>
             </div>
           </div>
-          <h1 className="text-8xl font-serif font-light tracking-tight hover:italic transition-all duration-500 cursor-default">{word.word}</h1>
+          <h1 className="text-6xl sm:text-7xl md:text-8xl font-serif font-light tracking-tight hover:italic transition-all duration-500 cursor-default">{word.word}</h1>
         </div>
       </div>
 
-      <div className="timeline-border pl-12 py-4">
-        <p className="text-5xl text-white/80 font-serif leading-tight mb-6 italic">{word.definition}</p>
-        <p className="text-white/30 italic text-xl font-light">"{word.example}"</p>
+      <div className="timeline-border pl-6 md:pl-12 py-4">
+        <p className="text-3xl sm:text-4xl md:text-5xl text-white/80 font-serif leading-tight mb-6 italic">{word.definition}</p>
+        <p className="text-white/30 italic text-lg md:text-xl font-light">"{word.example}"</p>
       </div>
     </section>
 
@@ -409,12 +458,12 @@ const LibraryView = ({ words }: { words: WordInsight[] }) => (
 // --- Insights View ---
 
 const InsightsView = ({ word, handleSpeak }: { word: WordInsight, handleSpeak: (t: string) => void }) => (
-  <div className="pt-32 space-y-16">
-    <header className="text-center relative py-20 bg-gradient-to-b from-zinc-950 to-black border-y border-white/10 group">
+  <div className="pt-32 space-y-12 md:space-y-16">
+    <header className="text-center relative py-12 md:py-20 bg-gradient-to-b from-zinc-950 to-black border-y border-white/10 group overflow-hidden">
       <div className="absolute inset-x-0 bottom-0 h-32 radial-underglow pointer-events-none" />
-      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6 block italic">Linguistic Profile // 01 / 12</span>
-      <div className="flex flex-col items-center gap-4">
-        <h1 className="text-9xl font-serif font-light italic tracking-tighter leading-none hover:text-white transition-colors cursor-default">{word.word}</h1>
+      <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-6 block italic px-4">Linguistic Profile // 01 / 12</span>
+      <div className="flex flex-col items-center gap-4 px-4">
+        <h1 className="text-6xl sm:text-7xl md:text-9xl font-serif font-light italic tracking-tighter leading-none hover:text-white transition-colors cursor-default">{word.word}</h1>
         <button
           onClick={() => handleSpeak(word.word)}
           className="text-white/10 hover:text-white transition-all transform hover:scale-110 p-4 rounded-full hover:bg-white/5"
@@ -422,7 +471,7 @@ const InsightsView = ({ word, handleSpeak }: { word: WordInsight, handleSpeak: (
           <Volume2 className="w-8 h-8" />
         </button>
       </div>
-      <p className="text-white/40 text-2xl font-light font-serif italic max-w-3xl mx-auto opacity-80 leading-relaxed px-6 mt-8">({word.partOfSpeech.toLowerCase()}.) {word.definition}</p>
+      <p className="text-white/40 text-lg sm:text-xl md:text-2xl font-light font-serif italic max-w-3xl mx-auto opacity-80 leading-relaxed px-6 mt-8">({word.partOfSpeech.toLowerCase()}.) {word.definition}</p>
     </header>
 
     <div className="grid grid-cols-1 md:grid-cols-12 gap-[1px] bg-white/10 border border-white/10">
