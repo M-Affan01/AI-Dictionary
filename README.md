@@ -12,7 +12,7 @@
 
 ## Project Overview
 
-In an era of rapid information exchange, the depth of language often gets lost in superficial definitions. **Lexis AI** is designed to bridge the gap between simple word lookups and academic-level linguistic research. By leveraging the **Google Gemini Pro** generative model, the workstation provides not just meanings, but the historical evolution (etymology), synonyms, antonyms, and complex sentence structures for any given term.
+In an era of rapid information exchange, the depth of language often gets lost in superficial definitions. **Lexis AI** is designed to bridge the gap between simple word lookups and academic-level linguistic research. By leveraging high-speed **Groq LPU™ Inference Engine**, the workstation provides not just meanings, but the historical evolution (etymology), synonyms, antonyms, and complex sentence structures for any given term.
 
 Whether you are a researcher, a developer, or a linguistics enthusiast, Lexis AI offers a "Command Center" experience for exploring the intricacies of human language.
 
@@ -23,17 +23,12 @@ Whether you are a researcher, a developer, or a linguistics enthusiast, Lexis AI
 ### AI-Driven Intelligence
 - **Deep Etymology**: Trace the roots of words across centuries and cultures.
 - **Semantic Mapping**: Real-time generation of synonyms and antonyms with contextual relevance.
-- **Intelligent Synthesis**: High-speed processing of linguistic data using Google's most capable AI models.
+- **Ultra-Fast Synthesis**: Sub-second processing of linguistic data powered by Groq's Llama-3 models.
 
 ### Advanced Workstation Tools
 - **Persistence Engine**: Integrated `localStorage` system for tracking Search History and Favorite terms.
 - **Telemetry Dashboard**: A high-fidelity UI providing real-time feedback and state transitions.
 - **Responsive Architecture**: Fully optimized for desktop, tablet, and mobile workflows.
-
-### Visual Excellence (UX)
-- **Glassmorphism Aesthetic**: A modern, sleek UI with translucent layers and vibrant gradients.
-- **Micro-animations**: Subtle transitions and hover effects that enhance user engagement without distraction.
-- **High Contrast**: Optimized for readability and professional focus.
 
 ---
 
@@ -46,24 +41,19 @@ graph TD
     A["User Interface (React)"] --> B["State Management"]
     B --> C["Local Persistence Engine"]
     B --> D["Service Layer (AI Connector)"]
-    D --> E["Google Gemini API"]
+    D --> E["Groq API"]
     C --> F[("Browser Storage")]
     A --> G["Theming Engine (CSS Variables)"]
 
-    %% Styling
+    %% Styling for better visibility in both Light/Dark modes
     style A fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
-    style B fill:#f9f,stroke:#333,stroke-width:2px
-    style C fill:#ff9,stroke:#333,stroke-width:2px
-    style D fill:#bbf,stroke:#333,stroke-width:2px
-    style E fill:#4285F4,stroke:#333,stroke-width:2px,color:#fff
-    style F fill:#dfd,stroke:#333,stroke-width:2px
-    style G fill:#ffb3ba,stroke:#333,stroke-width:2px
+    style B fill:#f9f,stroke:#333,stroke-width:2px,color:#000
+    style C fill:#ff9,stroke:#333,stroke-width:2px,color:#000
+    style D fill:#bbf,stroke:#333,stroke-width:2px,color:#000
+    style E fill:#f66,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#dfd,stroke:#333,stroke-width:2px,color:#000
+    style G fill:#ffb3ba,stroke:#333,stroke-width:2px,color:#000
 ```
-
-### Modules
-- **Service Layer**: Manages asynchronous communication with the Generative AI API.
-- **Context/State**: Handles the synchronization between the active search, history, and favorites.
-- **UI Components**: Modular, reusable components built with React and Lucide icons.
 
 ---
 
@@ -74,7 +64,7 @@ graph TD
 | **Frontend Framework** | React | 18.x |
 | **Build Tool** | Vite | 5.x |
 | **Language** | TypeScript | 5.x |
-| **AI Integration** | Google Gemini SDK | Latest |
+| **AI Integration** | Groq Cloud SDK | Latest |
 | **Styling** | Vanilla CSS3 (Custom Variables) | - |
 | **Icons** | Lucide React | Latest |
 
@@ -85,7 +75,7 @@ graph TD
 ### Prerequisites
 - Node.js (v18 or higher)
 - npm or yarn
-- A [Google AI Studio API Key](https://aistudio.google.com/app/apikey)
+- A [Groq Cloud API Key](https://console.groq.com/keys)
 
 ### Installation
 
@@ -103,7 +93,8 @@ graph TD
 3. **Configure Environment**
    Create a `.env` file in the root directory:
    ```env
-   VITE_GEMINI_API_KEY=your_api_key_here
+   VITE_GROQ_API_KEY=your_groq_api_key_here
+   VITE_APP_URL=http://localhost:3000
    ```
 
 4. **Run Development Server**
@@ -113,52 +104,12 @@ graph TD
 
 ---
 
-## Project Structure
-
-```text
-AI-Dictionary/
-├── src/
-│   ├── services/       # AI & API interaction logic
-│   ├── components/     # UI Building blocks
-│   ├── types/          # TypeScript interfaces
-│   ├── constants/      # Global constants and prompts
-│   ├── App.tsx         # Main application entry
-│   ├── main.tsx        # React mount point
-│   └── index.css       # Core design system
-├── public/             # Static assets
-├── .env                # Sensitive credentials (ignored)
-├── .gitignore          # Version control exclusions
-└── vite.config.ts      # Build configuration
-```
-
----
-
 ## Usage Guide
 
 1. **Initialize Search**: Enter any word into the primary input field on the dashboard.
 2. **Analyze Results**: Review the AI-synthesized definitions, etymology, and semantic relationships.
 3. **Save to Favorites**: Click the "Heart" icon to persist important words for later review.
 4. **Track History**: Access the "History" panel to see your recent linguistic explorations.
-5. **Clear Workspace**: Use the internal management tools to reset your history or favorites as needed.
-
----
-
-## Performance & Optimization
-
-- **Zero-Latency State Updates**: Uses React's `useState` and `useEffect` for instantaneous UI reflections.
-- **Tree Shaking**: Vite-optimized build process ensures minimal bundle size.
-- **Efficient API Handling**: Implemented error boundaries and loading states to handle network fluctuations gracefully.
-
----
-
-## Contributing
-
-Contributions are welcome! If you'd like to improve Lexis AI, please follow these steps:
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 
@@ -170,8 +121,8 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for more informati
 
 ## Contact
 
-**M-Affan01**
-- **Project Lead:** Muhammad AFfan
+**Affan Nexor**
+- **Project Lead:** Muhammad Affan
 - **GitHub**: [@M-Affan01](https://github.com/M-Affan01)
 
 
