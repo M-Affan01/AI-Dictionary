@@ -59,13 +59,13 @@ const Header = ({ currentView, changeView, openSettings }: { currentView: AppVie
             <button
               key={item.id}
               onClick={() => changeView(item.id as AppView)}
-              className={`nav-link-hover py-1 flex items-center gap-2 ${currentView === item.id
+              className={`nav-link-hover py-1 flex items-center gap-2.5 ${currentView === item.id
                   ? 'text-white after:w-full'
                   : 'text-white/50'
                 }`}
             >
-              <item.icon className="w-3.5 h-3.5" />
-              <span className="text-[10px] uppercase tracking-widest font-bold">{item.label}</span>
+              <item.icon className="w-4 h-4" />
+              <span className="text-xs uppercase tracking-[0.2em] font-bold">{item.label}</span>
             </button>
           ))}
         </nav>
@@ -111,9 +111,9 @@ const Header = ({ currentView, changeView, openSettings }: { currentView: AppVie
                     changeView(item.id as AppView);
                     setIsMenuOpen(false);
                   }}
-                  className={`flex items-center gap-4 text-sm font-bold uppercase tracking-widest ${currentView === item.id ? 'text-white' : 'text-white/40'}`}
+                  className={`flex items-center gap-5 text-lg font-bold uppercase tracking-[0.2em] ${currentView === item.id ? 'text-white' : 'text-white/40'}`}
                 >
-                  <item.icon className="w-4 h-4" />
+                  <item.icon className="w-5 h-5" />
                   {item.label}
                 </button>
               ))}
