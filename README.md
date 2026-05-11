@@ -1,4 +1,4 @@
-# Lexis AI — Dictionary Workstation
+# Lexis AI — Premium Dictionary Workstation
 
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -15,6 +15,17 @@
 In an era of rapid information exchange, the depth of language often gets lost in superficial definitions. **Lexis AI** is designed to bridge the gap between simple word lookups and academic-level linguistic research. By leveraging high-speed **Groq LPU™ Inference Engine**, the workstation provides not just meanings, but the historical evolution (etymology), synonyms, antonyms, and complex sentence structures for any given term.
 
 Whether you are a researcher, a developer, or a linguistics enthusiast, Lexis AI offers a "Command Center" experience for exploring the intricacies of human language.
+
+---
+
+## Academic Background & Mentorship
+
+This project was developed as a submission for the **Technical Business Writing** course, under the esteemed guidance of **[Sir Anzar Alam](https://www.linkedin.com/in/anzar-alam-bb0485257/)**.
+
+The vision for Lexis AI was sparked by an assignment given by Sir Anzar Alam, who challenged us to build a functional dictionary application. His objective was to create a tool that assists students in **mastering vocabulary**, providing comprehensive insights into **pronunciation, parts of speech, and contextual usage**.
+
+I would like to express my sincere gratitude and appreciation to Sir Anzar Alam for his mentorship, inspiration, and for pushing us to build solutions that adhere to real-world professional standards.
+
 
 ---
 
@@ -121,9 +132,8 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for more informati
 
 ## Contact
 
-**Affan Nexor**
 - **Project Lead:** Muhammad Affan
-- **GitHub**: [@M-Affan01](https://github.com/M-Affan01)
+- **LinkedIn**: [Affan Nexor](https://www.linkedin.com/in/affan-nexor-66abb8321/)
 
 
 
